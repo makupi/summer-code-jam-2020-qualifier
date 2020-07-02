@@ -28,4 +28,40 @@ class Article:
     """The `Article` class you need to write for the qualifier."""
 
     def __init__(self, title: str, author: str, publication_date: datetime.datetime, content: str):
+        self.title = title
+        self.author = author
+        self.publication_date = publication_date
+        self.content = content
+        self._words = {}
+        self._count_words()
+
+    def _count_words(self):
+        words = self.content.split(" ")
+        for word in words:
+            if word in self._words:
+                self._words[word] += 1
+            else:
+                self._words[word] = 1
+
+    def short_introduction(self, n_characters: int):
+        short_intro = self.content[:n_characters]
+        newline_index = short_intro.rindex("\n") if "\n" in short_intro else 0
+        space_index = short_intro.rindex(" ") if " " in short_intro else 0
+        if newline_index > space_index:
+            short_intro = short_intro[:newline_index]
+        else:
+            short_intro = short_intro[:space_index]
+        return short_intro
+
+    def most_common_words(self, n_words: int):
         pass
+
+    def __len__(self):
+        return len(self.content)
+
+    def __repr__(self):
+        return (
+            f'<Article title="{self.title}" '
+            f"author='{self.author}' "
+            f"publication_date='{self.publication_date.isoformat()}'>"
+        )
